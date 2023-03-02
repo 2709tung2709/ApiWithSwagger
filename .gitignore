@@ -362,3 +362,6 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 /ApiWithSwagger/ApiWithSwagger/ApiWithSwagger/ApiWithSwagger.xml
+/ApiWithSwagger/Data/Database.db
+/ApiWithSwagger/Data/Database.db-shm
+/ApiWithSwagger/Data/Database.db-wal

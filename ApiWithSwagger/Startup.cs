@@ -87,7 +87,7 @@ namespace ApiWithSwagger
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API");
-                //c.RoutePrefix = string.Empty; // enabled :https://<hostname>/  disabled: https://<hostname>/swagger
+                c.RoutePrefix = string.Empty; // enabled :https://<hostname>/  disabled: https://<hostname>/swagger
                 //c.InjectStylesheet("/swagger-ui/custom.css"); // Stylesheet for custom UI
             });
 
