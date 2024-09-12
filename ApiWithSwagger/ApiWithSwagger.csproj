@@ -19,4 +19,12 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="ApiWithSwagger.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ApiWithSwagger.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
 </Project>
