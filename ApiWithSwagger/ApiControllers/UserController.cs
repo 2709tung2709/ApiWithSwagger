@@ -1,29 +1,25 @@
 ﻿using ApiWithSwagger.Data;
 using ApiWithSwagger.Data.Models;
 using ApiWithSwagger.Dtos;
-using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Nelibur.ObjectMapper;
 
 namespace ApiWithSwagger.ApiControllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
-#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
     public class UserController : ControllerBase
-#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
     {
         private readonly IRepository _repo;
-        private readonly IMapper _mapper;
 
-        public UserController(IRepository repo, IMapper mapper)
+        public UserController(IRepository repo)
         {
             _repo = repo;
-            _mapper = mapper;
         }
 
         /// <summary>
@@ -37,7 +33,7 @@ namespace ApiWithSwagger.ApiControllers
             var user = await _repo.FindById(id);
             if (user != null)
             {
-                var userToReturn = _mapper.Map<UserDto>(user);
+                var userToReturn = TinyMapper.Map<UserDto>(user);
                 return Ok(userToReturn);
             }
 
@@ -53,7 +49,8 @@ namespace ApiWithSwagger.ApiControllers
         public async Task<IActionResult> GetListUser([FromBody] List<string> emails)
         {
             var users = await _repo.GetManyUsers(emails);
-            var usersToReturn = _mapper.Map<List<UserDto>>(users);
+            //var usersToReturn = users.Select(x => TinyMapper.Map<UserDto>(x)).ToList();
+            var usersToReturn = TinyMapper.Map<List<UserDto>>(users);
 
             return Ok(usersToReturn);
         }
@@ -67,7 +64,9 @@ namespace ApiWithSwagger.ApiControllers
         public async Task<IActionResult> GetUserWithItems([FromBody]string email)
         {
             var user = await _repo.GetUserWithItems(email);
-            var userToReturn = _mapper.Map<UserDto>(user);
+            if (user is null)
+                return NoContent();
+            var userToReturn = TinyMapper.Map<UserDto>(user);
 
             return Ok(userToReturn);
         }
@@ -87,7 +86,7 @@ namespace ApiWithSwagger.ApiControllers
             if (user != null)
                 return Ok("User already exist");
 
-            var userToAdd= _mapper.Map<User>(input);
+            var userToAdd= TinyMapper.Map<User>(input);
             _repo.Add(userToAdd);
             if(await _repo.SaveAll())
                 return Ok();
@@ -108,7 +107,7 @@ namespace ApiWithSwagger.ApiControllers
             var user = await _repo.GetUser(input.Email);
             if (user != null)
             {
-                _mapper.Map(input, user);
+                TinyMapper.Map(input, user);
                 _repo.Update(user);
                 if (await _repo.SaveAll())
                     return Ok();
