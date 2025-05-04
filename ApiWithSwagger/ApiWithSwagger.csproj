@@ -23,4 +23,12 @@
     <Folder Include="Helpers\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="ApiWithSwagger.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ApiWithSwagger.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
 </Project>
